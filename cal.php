@@ -61,7 +61,7 @@
     }
 
     $date = date('Y-m-d');
-    $query = "SELECT DISTINCT msg FROM reminders WHERE '$date' = remindDate ORDER BY remindDate ASC";
+    $query = "SELECT DISTINCT msg FROM reminders, events, goals WHERE '$date' = remindDate AND ((reminders.goal_id = goals.id AND goals.cal_id = '$cal_id') OR (reminders.event_id = events.id AND events.cal_id = '$cal_id')) ORDER BY remindDate ASC";
     $result = mysqli_query($conn, $query);
     if(!$result)
         echo "Query error: " . mysqli_error($conn);
